@@ -33,80 +33,34 @@
 
             <div v-for="(item,index) in ByTicket" :key="index" class="content">
 
-              <div class="left">
-                <div class="d-flex align-items-start">
+              <div class="checkinfoticket d-flex justify-content-between">
+                <div class="left d-flex align-items-center">
                   <div class="crownbg">
                     <p class="crown text-center">{{index+1}}</p>
                   </div>
 
-                  <div class=" flex-column">
-                    <h3>{{item.title}}</h3>
+                  <div class="right">
+                    <h3 class="text-light">{{item.title}}</h3>
                     <span class="text-info">{{item.name}}</span>
                   </div>
                 </div>
-              </div>
 
-              <div class="totalTicket">
-                <p class="vote">
-                  <b style="font-size:24px;">{{item.totalTicket}}
-                    <strong class="text-danger">票</strong>
-                  </b>
-                  <span class="text-secondary">{{item.totalPeople}}
-                    <strong class="text-warning">人支持</strong>
-                  </span>
-                </p>
-              </div>
-
-              <div class="votebutton">
-                <b-modal class="modelcontent" id="modal-center" centered title="扫码投票">
-                  <p class="my-4 d-flex justify-content-around">
-                    <img src="../assets/qq.svg">
-                    <img src="../assets/weibo.svg">
-                    <img src="../assets/wechat.svg">
-                  </p>
-                </b-modal>
-                <b-btn target="$0" v-b-modal.modal-center class="btn-outline-success">为他拉票</b-btn>
-                <b-button href="#" disabled variant="secondary">暂停投票</b-button>
-              </div>
-
-              <div class="checkinfo">
-                <b-btn class="btn btn-outline-info" v-b-toggle.collapse1>查看介绍</b-btn>
-                <b-collapse id="collapse1" class="mt-2 ">
-                  <b-card>
-                    <p class="card-text text-light">{{item.resume}}</p>
-                    <a href="#">前往官网</a>
-                    <a href="#">查看白皮书</a>
-                  </b-card>
-                </b-collapse>
-              </div>
-
-            </div>
-          </b-tab>
-
-          <!-- 人数榜 -->
-          <b-tab title="人数榜">
-            <ul>
-              <li v-for="(post,index) in PeopleData" :key="index.id">
-                <div class="crownbg">
-                  <p class="crown text-center">{{index+1}}</p>
-                </div>
-                <div class="Tokenname">
-                  <div class="text-light">{{post.title}}</div>
-                  <div class="text-info">{{post.name}}</div>
+                <div class="d-flex d-flex align-items-center">
+                  <b-btn class="btn btn-outline-info " @click="toggle(index)">查看介绍</b-btn>
                 </div>
 
-                <div class="totalTicket">
-                  <p class="vote">
-                    <em style="font-size:24px;">{{post.totalTicket}}
-                      <i class="text-info">票</i>
-                    </em>
-                    <span class="text-secondary">{{post.totalPeople}}
-                      <i class="text-info">人支持</i>
+                <div class="totalTicket d-flex align-items-center">
+                  <div class="vote d-flex flex-column">
+                    <b class="text-light" style="font-size:24px;">{{item.totalTicket}}
+                      <strong class="text-danger">票</strong>
+                    </b>
+                    <span class="text-secondary">{{item.totalPeople}}
+                      <strong class="text-warning">人支持</strong>
                     </span>
-                  </p>
+                  </div>
                 </div>
 
-                <div class="votebutton">
+                <div class="votebutton d-flex align-items-center">
                   <b-modal class="modelcontent" id="modal-center" centered title="扫码投票">
                     <p class="my-4 d-flex justify-content-around">
                       <img src="../assets/qq.svg">
@@ -114,21 +68,79 @@
                       <img src="../assets/wechat.svg">
                     </p>
                   </b-modal>
-                  <b-btn target="$0" v-b-modal.modal-center class="btn-outline-success">为他拉票</b-btn>
+                  <b-btn v-b-modal.modal-center class="btn-outline-success">为他拉票</b-btn>
                   <b-button href="#" disabled variant="secondary">暂停投票</b-button>
                 </div>
-
-                <b-btn @click="toggle(index)" class="btn btn-outline-info">查看介绍</b-btn>
-                <div class="showinfo" v-show="index==isShow">
+              </div>
+              <div class="checkinfo">
+                <div v-show="index==isShow" class="showinfo ">
                   <b-card>
-                  <p class="card-text text-light">{{post.resume}}</p>
-                  <a href="#">前往官网</a>
-                  <a href="#">查看白皮书</a>
+                    <p class="card-text text-light">{{item.resume}}</p>
+                    <a href="#">前往官网</a>
+                    <a href="#">查看白皮书</a>
                   </b-card>
                 </div>
-              </li>
-            </ul>
+              </div>
 
+            </div>
+          </b-tab>
+
+          <!-- 人数榜 -->
+          <b-tab title="人数榜">
+            <div v-for="(post,index) in PeopleData" :key="index" class="content">
+
+              <div class="checkinfoticket d-flex justify-content-between">
+                <div class="left d-flex align-items-center">
+                  <div class="crownbg">
+                    <p class="crown text-center">{{index+1}}</p>
+                  </div>
+
+                  <div class="right">
+                    <h3 class="text-light">{{post.title}}</h3>
+                    <span class="text-info">{{post.name}}</span>
+                  </div>
+                  <div>
+                  </div>
+                </div>
+
+                <div class="d-flex d-flex align-items-center">
+                  <b-btn class="btn btn-outline-info " @click="toggle(index)">查看介绍</b-btn>
+                </div>
+
+                <div class="totalTicket d-flex align-items-center">
+                  <div class="vote d-flex flex-column">
+                    <b class="text-light" style="font-size:24px;">{{post.totalTicket}}
+                      <strong class="text-danger">票</strong>
+                    </b>
+                    <span class="text-secondary">{{post.totalPeople}}
+                      <strong class="text-warning">人支持</strong>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="votebutton d-flex align-items-center">
+                  <b-modal class="modelcontent" id="modal-center" centered title="扫码投票">
+                    <p class="my-4 d-flex justify-content-around">
+                      <img src="../assets/qq.svg">
+                      <img src="../assets/weibo.svg">
+                      <img src="../assets/wechat.svg">
+                    </p>
+                  </b-modal>
+                  <b-btn v-b-modal.modal-center class="btn-outline-success">为他拉票</b-btn>
+                  <b-button href="#" disabled variant="secondary">暂停投票</b-button>
+                </div>
+              </div>
+              <div class="checkinfo">
+                <div v-show="index==isShow" class="showinfo ">
+                  <b-card>
+                    <p class="card-text text-light">{{post.resume}}</p>
+                    <a href="#">前往官网</a>
+                    <a href="#">查看白皮书</a>
+                  </b-card>
+                </div>
+              </div>
+
+            </div>
           </b-tab>
         </b-tabs>
       </b-card>
@@ -150,19 +162,16 @@ export default {
       ByTicket: {},
       PeopleData: {},
       nextime: {},
-      isShow: 0,
+      isShow: 0
     };
   },
-  ready() {
-
-  },
+  ready() {},
   created() {
     this.getByPeopleData();
     this.getByTicket();
     this.getScheduleList();
   },
   methods: {
-
     toggle(index) {
       if (this.isShow == index) {
         this.isShow = -1;
@@ -215,19 +224,18 @@ export default {
     }
   },
 
-  mounted() {
-
-  }
+  mounted() {}
 };
 </script>
 
 
 <style lang="stylus" scoped>
 ul, li {
-padding: 0;
-margin: 0;
-list-style: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
+
 div.layoutcontent {
   background-color: #262a42;
 }
@@ -249,6 +257,42 @@ div.nextime {
   padding-top: 40px;
   margin-left: 70px;
   color: pink;
+}
+
+.checkinfoticket {
+  height: 130px;
+
+  .left {
+    padding-left: 20px;
+    width: 150px;
+  }
+
+  .crownbg {
+    height: 50px;
+    width: 50px;
+    background: url('../assets/glod.svg');
+    background-size: cover;
+    display: block;
+    margin-left: 20px;
+    float: left;
+
+    p.crown {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 18px;
+      color: black;
+      font-weight: bold;
+    }
+  }
+
+  .right {
+    padding-left: 60px;
+  }
+}
+
+div.card-body {
+  background-color: #181b2a;
 }
 </style>
 
