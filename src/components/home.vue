@@ -1,4 +1,4 @@
-<template>
+<template id="a" >
   <div class="layoutcontent">
     <!-- banner -->
     <div class="jumbotron banner">
@@ -31,7 +31,7 @@
         <b-tabs pills card>
           <b-tab title="票数榜" active>
 
-            <div v-for="(item,index) in ByTicket" :key="index" class="content">
+            <div v-for="(item,index) in ByTicket" :key="index.id" class="content">
 
               <div class="checkinfoticket d-flex justify-content-between">
                 <div class="left d-flex align-items-center">
@@ -41,6 +41,7 @@
 
                   <div class="right">
                     <h3 class="text-light">{{item.title}}</h3>
+                    <h3 class="text-light">{{item.id}}</h3>
                     <span class="text-info">{{item.name}}</span>
                   </div>
                 </div>
@@ -61,16 +62,20 @@
                 </div>
 
                 <div class="votebutton d-flex align-items-center">
-                  <b-modal class="modelcontent" id="modal-center" centered title="扫码投票">
-                    <p class="my-4 d-flex justify-content-around">
-                      <img src="../assets/qq.svg">
-                      <img src="../assets/weibo.svg">
-                      <img src="../assets/wechat.svg">
-                    </p>
-                  </b-modal>
-                  <b-btn v-b-modal.modal-center class="btn-outline-success">为他拉票</b-btn>
-                  <b-button href="#" disabled variant="secondary">暂停投票</b-button>
+                  <b-btn class="btn-outline-success" @click="conditionalShow">
+                    为他拉票
+                    <!-- <b v-if="!canBeShown">NOT</b> be shown -->
+                  </b-btn>
+                  <!-- <b-btn class="btn-outline-success" @click="showTitleDialog">
+                    为他拉票
+                  </b-btn> -->
+
+                  <b-btn class="btn green" variant="success" @click="$modal.show('error-modal');(spot)">
+                    开始投票
+                  </b-btn>
+                  <!-- <b-btn href="#" :disabled="disabled" variant="secondary">暂停投票</b-btn> -->
                 </div>
+
               </div>
               <div class="checkinfo">
                 <div v-show="index==isShow" class="showinfo ">
@@ -87,7 +92,7 @@
 
           <!-- 人数榜 -->
           <b-tab title="人数榜">
-            <div v-for="(post,index) in PeopleData" :key="index" class="content">
+            <div v-for="(post,index) in PeopleData" :key="index.id" class="content">
 
               <div class="checkinfoticket d-flex justify-content-between">
                 <div class="left d-flex align-items-center">
@@ -119,15 +124,21 @@
                 </div>
 
                 <div class="votebutton d-flex align-items-center">
-                  <b-modal class="modelcontent" id="modal-center" centered title="扫码投票">
-                    <p class="my-4 d-flex justify-content-around">
-                      <img src="../assets/qq.svg">
-                      <img src="../assets/weibo.svg">
-                      <img src="../assets/wechat.svg">
-                    </p>
-                  </b-modal>
-                  <b-btn v-b-modal.modal-center class="btn-outline-success">为他拉票</b-btn>
-                  <b-button href="#" disabled variant="secondary">暂停投票</b-button>
+
+                  <b-btn class="btn-outline-success" @click="conditionalShow">
+                    为他拉票
+                    <!-- <b v-if="!canBeShown">NOT</b> be shown -->
+                  </b-btn>
+
+                  <!-- <b-btn class="btn-outline-success" @click="showTitleDialog">
+                    为他拉票
+                  </b-btn> -->
+
+                  <b-btn class="btn green" variant="success" @click="$modal.show('error-modal')">
+                    开始投票
+                  </b-btn>
+                  <!-- <b-btn href="#" :disabled="disabled" variant="secondary">暂停投票</b-btn> -->
+
                 </div>
               </div>
               <div class="checkinfo">
@@ -153,9 +164,9 @@
 <script>
 import axios from "axios";
 import common from "../common/common";
-
+import bus from "../bus";
 export default {
-  name: "app",
+  name: "home",
 
   data() {
     return {
@@ -163,12 +174,13 @@ export default {
       PeopleData: {},
       nextime: {},
       isShow: 0
+      // disabled: {}
     };
   },
   ready() {},
   created() {
-    this.getByPeopleData();
     this.getByTicket();
+    this.getByPeopleData();
     this.getScheduleList();
   },
   methods: {
@@ -178,6 +190,9 @@ export default {
       } else {
         this.isShow = index;
       }
+    },
+    conditionalShow() {
+      this.$modal.show("conditional-modal");
     },
 
     getByPeopleData() {
@@ -221,10 +236,13 @@ export default {
         },
         err => {}
       );
-    }
-  },
+    },
 
-  mounted() {}
+    spot: function() {
+      //监听A组件中的spot，并发送数据
+      bus.$emit("spot", " 没想到吧！！我是A组件");
+    }
+  }
 };
 </script>
 
@@ -257,6 +275,10 @@ div.nextime {
   padding-top: 40px;
   margin-left: 70px;
   color: pink;
+}
+
+.container {
+  min-height: 300px;
 }
 
 .checkinfoticket {

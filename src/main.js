@@ -6,18 +6,30 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VModal from 'vue-js-modal'
+import store from './store/index'
+
+
+
+Vue.use(VModal, {
+  dialog: true,
+  dynamic: true
+})
 
 
 Vue.use(BootstrapVue)
-
 Vue.config.productionTip = false
+
+// Vue.prototype.$ajax = axios
+
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: {
-    App
+    App,
   },
   template: '<App/>'
 })

@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <!-- 顶部通栏 -->
+    <demo-error-modal/>
+    <demo-conditional-modal/>
+    <!-- <modals-container /> -->
+    <v-dialog/>
 
-    <b-navbar toggleable="md" type="dark" style="background:#181b2a;" fixed="top">
+    <!-- 顶部通栏 -->
+    <b-navbar toggleable="md" type="dark" style="background:#181b2a; height:60px;" fixed="top">
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -12,17 +16,18 @@
 
         <b-navbar-nav>
           <b-nav-item href="http://hht.one/#/trade">币币交易</b-nav-item>
-          <b-nav-item href="#" active>投票上币</b-nav-item>
+          <b-nav-item to="/">投票上币</b-nav-item>
           <b-nav-item href="http://hht.one/#/home">HHT PRO</b-nav-item>
+          <b-nav-item to="/help">上币申请</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
 
-          <b-nav-form>
+          <!-- <b-nav-form>
             <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="搜索币种" />
             <b-button size="sm" class="my-2 my-sm-0 btn-outline-warning" type="submit">确定</b-button>
-          </b-nav-form>
+          </b-nav-form> -->
 
           <b-nav-item-dropdown text="简体中文" right>
             <b-dropdown-item href="#">EN</b-dropdown-item>
@@ -44,8 +49,6 @@
       </b-collapse>
     </b-navbar>
 
-
-    <!-- <img src="./assets/logo.png"> -->
     <router-view/>
 
     <!-- foot -->
@@ -95,8 +98,18 @@
 </template>
 
 <script>
+import DemoErrorModal from "./components/DemoErrorModal";
+import DemoConditionalModal from "./components/ConditionalModal";
+import Home from "./components/home";
+
 export default {
-  name: "App"
+  name: "App",
+  components: {
+    DemoErrorModal,
+    DemoConditionalModal,
+    Home
+  }
+  // store: store
 };
 </script>
 
