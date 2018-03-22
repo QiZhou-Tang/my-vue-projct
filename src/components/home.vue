@@ -41,7 +41,6 @@
 
                   <div class="right">
                     <h3 class="text-light">{{item.title}}</h3>
-                    <h3 class="text-light">{{item.id}}</h3>
                     <span class="text-info">{{item.name}}</span>
                   </div>
                 </div>
@@ -64,14 +63,16 @@
                 <div class="votebutton d-flex align-items-center">
                   <b-btn class="btn-outline-success" @click="conditionalShow">
                     为他拉票
-                    <!-- <b v-if="!canBeShown">NOT</b> be shown -->
                   </b-btn>
+
+
+                  <!-- <b-btn class="btn green" variant="success" @click="$modal.show('error-modal');(spot)"> -->
                   <!-- <b-btn class="btn-outline-success" @click="showTitleDialog">
                     为他拉票
                   </b-btn> -->
 
-                  <b-btn class="btn green" variant="success" @click="$modal.show('error-modal');(spot)">
-                    开始投票
+                  <b-btn class="btn green" variant="success" @click="$modal.show('error-modal');spot(item)">
+                    开始投票{{item.id}}
                   </b-btn>
                   <!-- <b-btn href="#" :disabled="disabled" variant="secondary">暂停投票</b-btn> -->
                 </div>
@@ -81,8 +82,8 @@
                 <div v-show="index==isShow" class="showinfo ">
                   <b-card>
                     <p class="card-text text-light">{{item.resume}}</p>
-                    <a href="#">前往官网</a>
-                    <a href="#">查看白皮书</a>
+                    <a class="outlink" v-bind:href="item.officialUrl">前往官网</a>
+                    <a class="outlink" v-bind:href="item.whitebookUrl">查看白皮书</a>
                   </b-card>
                 </div>
               </div>
@@ -127,14 +128,10 @@
 
                   <b-btn class="btn-outline-success" @click="conditionalShow">
                     为他拉票
-                    <!-- <b v-if="!canBeShown">NOT</b> be shown -->
                   </b-btn>
 
-                  <!-- <b-btn class="btn-outline-success" @click="showTitleDialog">
-                    为他拉票
-                  </b-btn> -->
 
-                  <b-btn class="btn green" variant="success" @click="$modal.show('error-modal')">
+                  <b-btn class="btn green" variant="success" @click="$modal.show('error-modal');spot(post)">
                     开始投票
                   </b-btn>
                   <!-- <b-btn href="#" :disabled="disabled" variant="secondary">暂停投票</b-btn> -->
@@ -145,8 +142,8 @@
                 <div v-show="index==isShow" class="showinfo ">
                   <b-card>
                     <p class="card-text text-light">{{post.resume}}</p>
-                    <a href="#">前往官网</a>
-                    <a href="#">查看白皮书</a>
+                    <a class="outlink" href="#">前往官网</a>
+                    <a class="outlink" href="#">查看白皮书</a>
                   </b-card>
                 </div>
               </div>
@@ -173,11 +170,13 @@ export default {
       ByTicket: {},
       PeopleData: {},
       nextime: {},
-      isShow: 0
+      isShow: 0,
       // disabled: {}
     };
   },
-  ready() {},
+  ready() {
+
+  },
   created() {
     this.getByTicket();
     this.getByPeopleData();
@@ -203,6 +202,9 @@ export default {
 
       axios.get(url).then(
         response => {
+          // this.id = response.data.result.id
+          // console.log(this.id);
+
           this.PeopleData = response.data.result;
           console.log(response);
         },
@@ -237,10 +239,11 @@ export default {
         err => {}
       );
     },
-
-    spot: function() {
+    spot(item,post) {
       //监听A组件中的spot，并发送数据
-      bus.$emit("spot", " 没想到吧！！我是A组件");
+      var msg = item.id
+      console.log(msg);
+      bus.$emit("spot", msg);
     }
   }
 };
@@ -272,8 +275,8 @@ div.jumbotron.banner {
 }
 
 div.nextime {
-  padding-top: 40px;
-  margin-left: 70px;
+  padding-top: 100px;
+  // margin-left: 70px;
   color: pink;
 }
 
@@ -308,6 +311,10 @@ div.nextime {
     }
   }
 
+  a.outlink {
+    padding-left: 30px;
+  }
+
   .right {
     padding-left: 60px;
   }
@@ -315,6 +322,10 @@ div.nextime {
 
 div.card-body {
   background-color: #181b2a;
+}
+
+a.outlink {
+  padding: 60px;
 }
 </style>
 

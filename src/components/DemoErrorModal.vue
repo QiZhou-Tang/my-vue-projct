@@ -41,9 +41,7 @@ export default {
     };
   },
   beforeCreate() {},
-  created() {
-    this.getByPeopleData();
-  },
+  created() {},
   methods: {
     createBug() {
       this.bugCount++;
@@ -63,30 +61,15 @@ export default {
       }vote/serverCreateVote.o?candidateCoinId=134&voteNumber=100`;
       const params = {
         voteNumber: this.bugCount,
-        candidateCoinId: this.msg
+        candidateCoinId: this.msg,
       };
       axios.get(url, params).then(
         response => {
-          // this.ByTicket = response.data.result;
           console.log(response);
         },
         err => {}
       );
     },
-    getByPeopleData() {
-      // 获取人数排行榜
-      const url = `${
-        common.apihost
-      }vote/getVoteCandidateCoinListOrderByPeople.o`;
-
-      axios.get(url).then(
-        response => {
-          this.PeopleData = response.data.result;
-          console.log(response);
-        },
-        err => {}
-      );
-    }
   },
   mounted() {
     var _this = this;

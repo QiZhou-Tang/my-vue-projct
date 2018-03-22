@@ -2,23 +2,8 @@
   <modal name="conditional-modal" :adaptive="true" :max-width="500" :max-height="300" width="80%" height="50%">
     <div class="bgcolor" style="padding:30px; text-align: center">
       <p class="text-light" href="javascript:void(0)" onMouseOut="hideImg()" onmouseover="showImg()">扫码分享拉票</p>
-      <!-- <div id="wxImg" style="height:50px;back-ground:#f00;position:absolute;">这里是微信图片</div> -->
     </div>
     <div class="container">
-      <!-- <div @mouseover="overShow" @mouseout="outHide">
-        <el-menu>
-          <el-submenu index="checkbatch">
-            <template slot="title">
-              <i class="el-icon-document"></i>
-              <span :class="{show:showText,hide:hideText}">批次信息</span>
-            </template>
-            <el-menu-item>全部批次信息查看</el-menu-item>
-            <el-menu-item>接受中批次信息查看</el-menu-item>
-            <el-menu-item>审核中批次信息查看</el-menu-item>
-            <el-menu-item>已完成批次信息查看</el-menu-item>
-          </el-submenu>
-        </el-menu>
-      </div> -->
       <p class=" d-flex justify-content-around">
         <img src="../assets/qq.svg">
         <img src="../assets/weibo.svg">
